@@ -1,7 +1,7 @@
-streamlit
-langchain
-langchain-community
-langchain-openai
-langchain-core
-wikipedia
-langchain-ollama
+streamlit==1.39.0
+langchain==0.3.27
+langchain-community==0.3.31
+langchain-openai==0.3.35
+langchain-core==0.3.83
+wikipedia==1.4.0
+langchain-ollama==0.3.6
