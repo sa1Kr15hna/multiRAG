@@ -9,3 +9,6 @@ langchain-ollama==0.3.6
 langchain-chroma
 rank-bm25
 langchain-classic
+ragas
+datasets
+pandas

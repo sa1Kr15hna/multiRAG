@@ -7,11 +7,9 @@ from langchain_ollama import OllamaEmbeddings
 from langchain_community.retrievers import BM25Retriever
 
 # Configuration
-SEARCH_QUERIES = ["Grey's Anatomy"] + [f"Grey's Anatomy season {i}" for i in range(1, 23)]
-BM25_INDEX_FILE = "./bm25_retriever.pkl"
+from src.config import BM25_INDEX_FILE, CHROMA_DB_DIR, OLLAMA_EMBEDDING_MODEL, OLLAMA_BASE_URL
 
-MODELS = ["bge-m3:latest"]
-OLLAMA_BASE_URL = "http://localhost:11434"
+SEARCH_QUERIES = ["Grey's Anatomy"] + [f"Grey's Anatomy season {i}" for i in range(1, 23)]
 
 def main():
     print("Loading Wikipedia articles...")
@@ -41,22 +39,20 @@ def main():
     with open(BM25_INDEX_FILE, 'wb') as f:
         pickle.dump(bm25_retriever, f)
 
-    for model in MODELS:
-        print(f"Initializing Ollama embeddings with model: {model}...")
-        embeddings = OllamaEmbeddings(
-            model=model,
-            base_url=OLLAMA_BASE_URL
-        )
+    print(f"Initializing Ollama embeddings with model: {OLLAMA_EMBEDDING_MODEL}...")
+    embeddings = OllamaEmbeddings(
+        model=OLLAMA_EMBEDDING_MODEL,
+        base_url=OLLAMA_BASE_URL
+    )
 
-        db_dir = f"./chroma_db_{model.replace(':', '_')}"
-        print(f"Creating and persisting Chroma DB to {db_dir}...")
-        # Clean up existing Chroma DB if needed (optional)
-        Chroma.from_documents(
-            documents=chunks,
-            embedding=embeddings,
-            persist_directory=db_dir
-        )
-        print(f"Chroma DB saved to {db_dir}")
+    print(f"Creating and persisting Chroma DB to {CHROMA_DB_DIR}...")
+    # Clean up existing Chroma DB if needed (optional)
+    Chroma.from_documents(
+        documents=chunks,
+        embedding=embeddings,
+        persist_directory=CHROMA_DB_DIR
+    )
+    print(f"Chroma DB saved to {CHROMA_DB_DIR}")
 
     print("Ingestion complete!")
 

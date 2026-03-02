@@ -55,3 +55,21 @@ Finally, start your local Streamlit server:
 streamlit run app.py
 ```
 This command will automatically open a tab in your default web browser (usually at `http://localhost:8501`) where you can chat with the application!
+
+## Evaluating the Application (Ragas)
+This project includes an automated evaluation script that uses the [Ragas framework](https://docs.ragas.io/) to measure the quality of the generated answers against a set of predefined test inputs.
+
+### Metrics Used
+The evaluation currently measures two key metrics from Ragas:
+1. **Faithfulness**: Measures the factual consistency of the generated answer against the retrieved context.
+2. **Answer Relevancy**: Measures how relevant the generated answer is to the user's prompt/question.
+
+*(Note: `context_precision` and `context_recall` are also available in the script but are commented out by default).*
+
+### Running the Evaluation
+To run the evaluation script, use the following command from the root directory:
+```bash
+python tests/evaluate_ragas.py
+```
+
+After the evaluation completes, you will see the overall results printed in your terminal, and a detailed CSV file named `ragas_evaluation_results.csv` will be saved locally.
